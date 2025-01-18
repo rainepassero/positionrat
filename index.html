@@ -14,30 +14,32 @@
             margin-top: 20px;
         }
         .counter {
-            position: absolute; /* Position the counter at a fixed spot */
-            top: 10px; /* Distance from the top of the page */
-            left: 10px; /* Distance from the left of the page */
-            font-size: 14px; /* Adjust font size to fit */
-            text-align: left; /* Align text to the left */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+            text-align: left;
         }
         .audio-player {
-            margin-top: 20px; /* Space below the title */
+            margin-top: 20px;
         }
         img {
-            position: relative; /* Keep the image in the flow */
+            position: absolute;
             width: 300px;
             height: auto;
             cursor: grab;
-            margin-top: 20px; /* Space between audio and image */
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .instruction {
-            margin-top: 20px; /* Space below the rat image */
+            margin-top: 20px;
             font-size: 18px;
             font-style: italic;
             color: #555;
         }
         .comments-section {
-            margin-top: 50px; /* Add space above the comments section */
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -70,15 +72,6 @@
         <h2>Comments</h2>
         <div id="disqus_thread"></div>
         <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
             (function() { // DON'T EDIT BELOW THIS LINE
                 var d = document, s = d.createElement('script');
                 s.src = 'https://positionrat-com.disqus.com/embed.js';
@@ -95,11 +88,10 @@
     <script>
         const ratImage = document.getElementById('ratImage');
 
-        // Initialize variables for dragging
         let isDragging = false;
         let offsetX, offsetY;
 
-        // Mouse down event to start dragging
+        // Desktop Events
         ratImage.addEventListener('mousedown', (event) => {
             isDragging = true;
             offsetX = event.clientX - ratImage.offsetLeft;
@@ -107,19 +99,36 @@
             ratImage.style.cursor = 'grabbing';
         });
 
-        // Mouse move event to drag the image
         document.addEventListener('mousemove', (event) => {
             if (isDragging) {
                 ratImage.style.left = event.clientX - offsetX + 'px';
                 ratImage.style.top = event.clientY - offsetY + 'px';
-                ratImage.style.position = 'absolute'; // Enable dragging
             }
         });
 
-        // Mouse up event to stop dragging
         document.addEventListener('mouseup', () => {
             isDragging = false;
             ratImage.style.cursor = 'grab';
+        });
+
+        // Mobile Events
+        ratImage.addEventListener('touchstart', (event) => {
+            isDragging = true;
+            const touch = event.touches[0];
+            offsetX = touch.clientX - ratImage.offsetLeft;
+            offsetY = touch.clientY - ratImage.offsetTop;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            if (isDragging) {
+                const touch = event.touches[0];
+                ratImage.style.left = touch.clientX - offsetX + 'px';
+                ratImage.style.top = touch.clientY - offsetY + 'px';
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
         });
     </script>
 </body>
