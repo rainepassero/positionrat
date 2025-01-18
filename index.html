@@ -15,12 +15,12 @@
         }
         img {
             position: absolute;
-            width: 300px; /* Adjust this for a bigger rat! */
+            width: 300px;
             height: auto;
             cursor: grab;
-            top: 150px; /* Start the rat below the instructions */
+            top: 200px; /* Moves rat image down */
             left: 50%; /* Center the rat horizontally */
-            transform: translateX(-50%); /* Proper centering adjustment */
+            transform: translateX(-50%);
         }
         .instruction {
             margin-top: 20px;
@@ -28,22 +28,37 @@
             font-style: italic;
             color: #555;
         }
+        .counter {
+            margin-top: 10px;
+        }
+        .audio-player {
+            margin-top: 10px; /* Add spacing above the rat image */
+        }
     </style>
 </head>
 <body>
     <h1>Welcome to PositionRat.com!</h1>
 
-    <script type="text/javascript" src="https://www.free-counters.org/count/h28m"></script><br>
- <a href='https://www.versicherungen.at/krankenzusatzversicherung/'>Krankenzusatzversicherung Vergleich</a> <script type='text/javascript' src='https://whomania.com/ctr?id=914ba171c695fce5fb37f95bf6c42f1678100285'></script>
- 
-    <img id="ratImage" src="rat.jpg" alt="A cool rat">
-    <p class="instruction">Go ahead and try! Position the rat anywhere you'd like! Wow!</p>
+    <!-- Visitor Counter -->
+    <div class="counter">
+        <script type="text/javascript" src="https://www.free-counters.org/count/h28m"></script><br>
+        <a href="https://www.versicherungen.at/krankenzusatzversicherung/">Krankenzusatzversicherung Vergleich</a>
+        <script type="text/javascript" src="https://whomania.com/ctr?id=914ba171c695fce5fb37f95bf6c42f1678100285"></script>
+    </div>
 
-    <!-- Background Music with Loop -->
-    <audio id="backgroundMusic" autoplay loop controls>
-        <source src="music.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <audio id="backgroundMusic" autoplay loop controls>
+            <source src="music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <!-- Rat Image -->
+    <img id="ratImage" src="rat.jpg" alt="A cool rat">
+
+    <!-- Instructions -->
+    <p class="instruction">Go ahead and try! Position the rat anywhere you'd like! Wow!</p>
 
     <script>
         const ratImage = document.getElementById('ratImage');
