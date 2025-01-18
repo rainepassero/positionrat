@@ -14,20 +14,24 @@
             margin-top: 20px;
         }
         .counter {
-            margin-top: 10px;
+            position: absolute; /* Position the counter at a fixed spot */
+            top: 10px; /* Distance from the top of the page */
+            left: 10px; /* Distance from the left of the page */
+            font-size: 14px; /* Adjust font size to fit */
+            text-align: left; /* Align text to the left */
         }
         .audio-player {
-            margin-top: 20px; /* Space below the counter */
+            margin-top: 20px; /* Space below the title */
         }
         img {
-            position: relative; /* Remove absolute positioning */
+            position: relative; /* Keep the image in the flow */
             width: 300px;
             height: auto;
             cursor: grab;
-            margin-top: 20px; /* Add space between audio and image */
+            margin-top: 20px; /* Space between audio and image */
         }
         .instruction {
-            margin-top: 20px; /* Add space below the rat image */
+            margin-top: 20px; /* Space below the rat image */
             font-size: 18px;
             font-style: italic;
             color: #555;
