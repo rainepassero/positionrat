@@ -14,14 +14,45 @@
             margin-top: 20px;
         }
         img {
-            max-width: 100%;
+            position: absolute;
+            max-width: 150px;
             height: auto;
-            margin-top: 10px;
+            cursor: grab;
         }
     </style>
 </head>
 <body>
     <h1>Welcome to PositionRat.com!</h1>
-    <img src="rat.jpg" alt="A cool rat">
+    <img id="ratImage" src="rat.jpg" alt="A cool rat">
+
+    <script>
+        const ratImage = document.getElementById('ratImage');
+
+        // Initialize variables for dragging
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // Mouse down event to start dragging
+        ratImage.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            offsetX = event.clientX - ratImage.offsetLeft;
+            offsetY = event.clientY - ratImage.offsetTop;
+            ratImage.style.cursor = 'grabbing';
+        });
+
+        // Mouse move event to drag the image
+        document.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                ratImage.style.left = event.clientX - offsetX + 'px';
+                ratImage.style.top = event.clientY - offsetY + 'px';
+            }
+        });
+
+        // Mouse up event to stop dragging
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            ratImage.style.cursor = 'grab';
+        });
+    </script>
 </body>
 </html>
