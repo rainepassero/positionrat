@@ -13,29 +13,24 @@
         h1 {
             margin-top: 20px;
         }
-        img {
-            position: absolute;
-            width: 300px;
-            height: auto;
-            cursor: grab;
-            top: 200px; /* Moves rat image down below the counter and audio */
-            left: 50%; /* Center the rat horizontally */
-            transform: translateX(-50%);
-        }
-        .instruction {
-            position: absolute;
-            top: 500px; /* Keep the instructions below the rat */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 18px;
-            font-style: italic;
-            color: #555;
-        }
         .counter {
             margin-top: 10px;
         }
         .audio-player {
-            margin-top: 20px; /* Add spacing between counter and audio */
+            margin-top: 20px; /* Space below the counter */
+        }
+        img {
+            position: relative; /* Remove absolute positioning */
+            width: 300px;
+            height: auto;
+            cursor: grab;
+            margin-top: 20px; /* Add space between audio and image */
+        }
+        .instruction {
+            margin-top: 20px; /* Add space below the rat image */
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
         }
     </style>
 </head>
@@ -83,6 +78,7 @@
             if (isDragging) {
                 ratImage.style.left = event.clientX - offsetX + 'px';
                 ratImage.style.top = event.clientY - offsetY + 'px';
+                ratImage.style.position = 'absolute'; // Enable dragging
             }
         });
 
