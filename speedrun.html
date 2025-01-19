@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rat Speedrun</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        img {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            cursor: grab;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .target {
+            width: 50px;
+            height: 50px;
+            background: yellow;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .instruction {
+            margin-top: 20px;
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rat Speedrun</h1>
+    <div class="score">Targets hit: <span id="score">0</span> / 3</div>
+    <p class="instruction">Drag the rat to each target as fast as you can!</p>
+    <img id="ratImage" src="rat.jpg" alt="A cool rat">
+
+    <script>
+        const ratImage = document.getElementById('ratImage');
+        const scoreDisplay = document.getElementById('score');
+        let isDragging = false;
+        let offsetX, offsetY;
+        let score = 0;
+        let startTime = null;
+
+        // Generate targets
+        const targets = [
+            { x: 100, y: 200 },
+            { x: 300, y: 400 },
+            { x: 500, y: 150 }
+        ];
+
+        targets.forEach((target, index) => {
+            const targetDiv = document.createElement('div');
+            targetDiv.className = 'target';
+            targetDiv.style.left = `${target.x}px`;
+            targetDiv.style.top = `${target.y}px`;
+            targetDiv.id = `target-${index}`;
+            document.body.appendChild(targetDiv);
+        });
+
+        // Start the timer when the game begins
+        function startTimer() {
+            if (startTime === null) {
+                startTime = Date.now();
+            }
+        }
+
+        // Check if the rat is on a target
+        function checkIfOnTarget() {
+            const ratRect = ratImage.getBoundingClientRect();
+
+            targets.forEach((target, index) => {
+                const targetDiv = document.getElementById(`target-${index}`);
+                if (!targetDiv) return;
+
+                const targetRect = targetDiv.getBoundingClientRect();
+                const overlap = !(ratRect.right < targetRect.left ||
+                    ratRect.left > targetRect.right ||
+                    ratRect.bottom < targetRect.top ||
+                    ratRect.top > targetRect.bottom);
+
+                if (overlap) {
+                    // Remove the target and update the score
+                    targetDiv.remove();
+                    score++;
+                    scoreDisplay.textContent = `${score} / ${targets.length}`;
+
+                    // Check if all targets are cleared
+                    if (score === targets.length) {
+                        const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                        alert(`You completed the game in ${timeElapsed} seconds!`);
+                        location.reload(); // Reload the game
+                    }
+                }
+            });
+        }
+
+        // Dragging logic
+        ratImage.addEventListener('mousedown', (event) => {
+            startTimer();
+            isDragging = true;
+            offsetX = event.clientX - ratImage.offsetLeft;
+            offsetY = event.clientY - ratImage.offsetTop;
+            ratImage.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                ratImage.style.left = event.clientX - offsetX + 'px';
+                ratImage.style.top = event.clientY - offsetY + 'px';
+                checkIfOnTarget();
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            ratImage.style.cursor = 'grab';
+        });
+
+        // Mobile touch support
+        ratImage.addEventListener('touchstart', (event) => {
+            startTimer();
+            isDragging = true;
+            const touch = event.touches[0];
+            offsetX = touch.clientX - ratImage.offsetLeft;
+            offsetY = touch.clientY - ratImage.offsetTop;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            if (isDragging) {
+                const touch = event.touches[0];
+                ratImage.style.left = touch.clientX - offsetX + 'px';
+                ratImage.style.top = touch.clientY - offsetY + 'px';
+                checkIfOnTarget();
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+    </script>
+</body>
+</html>
