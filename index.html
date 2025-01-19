@@ -20,11 +20,6 @@
             font-size: 14px;
             text-align: left;
         }
-        .score {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
-        }
         .audio-player {
             margin-top: 20px;
         }
@@ -46,6 +41,25 @@
         .comments-section {
             margin-top: 450px;
         }
+        .button-container {
+            margin-top: 40px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -57,9 +71,6 @@
         <a href="https://www.versicherungen.at/krankenzusatzversicherung/">Krankenzusatzversicherung Vergleich</a>
         <script type="text/javascript" src="https://whomania.com/ctr?id=914ba171c695fce5fb37f95bf6c42f1678100285"></script>
     </div>
-
-    <!-- Score Counter -->
-    <div class="score">You've positioned the rat <span id="score">0</span> times!</div>
 
     <!-- Audio Player -->
     <div class="audio-player">
@@ -74,6 +85,11 @@
 
     <!-- Instructions -->
     <p class="instruction">Go ahead and try! Position the rat anywhere you'd like! Wow!</p>
+
+    <!-- Button to Rat Speedrun -->
+    <div class="button-container">
+        <a href="speedrun.html" class="button">Play Rat Speedrun 🐀</a>
+    </div>
 
     <!-- Disqus Comment Section -->
     <div class="comments-section">
@@ -95,19 +111,11 @@
 
     <script>
         const ratImage = document.getElementById('ratImage');
-        const scoreDisplay = document.getElementById('score');
 
         let isDragging = false;
         let offsetX, offsetY;
-        let score = 0; // Initialize the score counter
 
-        // Function to update the score
-        function updateScore() {
-            score++;
-            scoreDisplay.textContent = score;
-        }
-
-        // Desktop Events
+        // Dragging logic
         ratImage.addEventListener('mousedown', (event) => {
             isDragging = true;
             offsetX = event.clientX - ratImage.offsetLeft;
@@ -119,7 +127,6 @@
             if (isDragging) {
                 ratImage.style.left = event.clientX - offsetX + 'px';
                 ratImage.style.top = event.clientY - offsetY + 'px';
-                updateScore(); // Update score on position change
             }
         });
 
@@ -128,7 +135,7 @@
             ratImage.style.cursor = 'grab';
         });
 
-        // Mobile Events
+        // Mobile touch support
         ratImage.addEventListener('touchstart', (event) => {
             isDragging = true;
             const touch = event.touches[0];
@@ -141,7 +148,6 @@
                 const touch = event.touches[0];
                 ratImage.style.left = touch.clientX - offsetX + 'px';
                 ratImage.style.top = touch.clientY - offsetY + 'px';
-                updateScore(); // Update score on position change
             }
         });
 
