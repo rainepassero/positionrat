@@ -9,6 +9,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
+            overflow: hidden; /* Prevent scrolling when dragging */
         }
         h1 {
             margin-top: 20px;
@@ -44,7 +45,7 @@
 </head>
 <body>
     <h1>Rat Speedrun</h1>
-    <div class="score">Targets hit: <span id="score">0</span> / 3</div>
+    <div class="score">Targets hit: <span id="score">0</span> / 5</div>
     <p class="instruction">Drag the rat to each target as fast as you can!</p>
     <img id="ratImage" src="rat.jpg" alt="A cool rat">
 
@@ -56,21 +57,27 @@
         let score = 0;
         let startTime = null;
 
-        // Generate targets
-        const targets = [
-            { x: 100, y: 200 },
-            { x: 300, y: 400 },
-            { x: 500, y: 150 }
-        ];
+        // Generate randomized targets
+        const totalTargets = 5; // Number of targets
+        const targets = [];
 
-        targets.forEach((target, index) => {
+        function generateRandomPosition() {
+            const x = Math.random() * (window.innerWidth - 50); // Prevent target from being off-screen
+            const y = Math.random() * (window.innerHeight - 150) + 100; // Prevent overlap with header
+            return { x, y };
+        }
+
+        for (let i = 0; i < totalTargets; i++) {
+            const position = generateRandomPosition();
+            targets.push(position);
+
             const targetDiv = document.createElement('div');
             targetDiv.className = 'target';
-            targetDiv.style.left = `${target.x}px`;
-            targetDiv.style.top = `${target.y}px`;
-            targetDiv.id = `target-${index}`;
+            targetDiv.style.left = `${position.x}px`;
+            targetDiv.style.top = `${position.y}px`;
+            targetDiv.id = `target-${i}`;
             document.body.appendChild(targetDiv);
-        });
+        }
 
         // Start the timer when the game begins
         function startTimer() {
@@ -85,7 +92,7 @@
 
             targets.forEach((target, index) => {
                 const targetDiv = document.getElementById(`target-${index}`);
-                if (!targetDiv) return;
+                if (!targetDiv) return; // Skip if target already removed
 
                 const targetRect = targetDiv.getBoundingClientRect();
                 const overlap = !(ratRect.right < targetRect.left ||
@@ -97,10 +104,10 @@
                     // Remove the target and update the score
                     targetDiv.remove();
                     score++;
-                    scoreDisplay.textContent = `${score} / ${targets.length}`;
+                    scoreDisplay.textContent = `${score} / ${totalTargets}`;
 
                     // Check if all targets are cleared
-                    if (score === targets.length) {
+                    if (score === totalTargets) {
                         const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(2);
                         alert(`You completed the game in ${timeElapsed} seconds!`);
                         location.reload(); // Reload the game
