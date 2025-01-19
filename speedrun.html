@@ -19,6 +19,11 @@
             font-size: 18px;
             color: #333;
         }
+        .highscore {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
+        }
         img {
             position: absolute;
             width: 100px;
@@ -41,21 +46,40 @@
             font-style: italic;
             color: #555;
         }
+        .link-back {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #007BFF;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .link-back:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <h1>Rat Speedrun</h1>
     <div class="score">Targets hit: <span id="score">0</span> / 5</div>
+    <div class="highscore">Fastest time: <span id="highscore">--</span></div>
     <p class="instruction">Drag the rat to each target as fast as you can!</p>
     <img id="ratImage" src="rat.jpg" alt="A cool rat">
+    <a href="index.html" class="link-back">Back to Home</a>
 
     <script>
         const ratImage = document.getElementById('ratImage');
         const scoreDisplay = document.getElementById('score');
+        const highscoreDisplay = document.getElementById('highscore');
         let isDragging = false;
         let offsetX, offsetY;
         let score = 0;
         let startTime = null;
+
+        // Load the high score from localStorage
+        const savedHighscore = localStorage.getItem('ratSpeedrunHighscore');
+        if (savedHighscore) {
+            highscoreDisplay.textContent = `${savedHighscore} seconds`;
+        }
 
         // Generate randomized targets
         const totalTargets = 5; // Number of targets
@@ -110,6 +134,14 @@
                     if (score === totalTargets) {
                         const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(2);
                         alert(`You completed the game in ${timeElapsed} seconds!`);
+
+                        // Save highscore if it's better
+                        if (!savedHighscore || timeElapsed < parseFloat(savedHighscore)) {
+                            localStorage.setItem('ratSpeedrunHighscore', timeElapsed);
+                            highscoreDisplay.textContent = `${timeElapsed} seconds`;
+                            alert('New Highscore!');
+                        }
+
                         location.reload(); // Reload the game
                     }
                 }
