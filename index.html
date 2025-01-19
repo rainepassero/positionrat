@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to PositionRat.com</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
             margin: 0;
@@ -21,6 +20,11 @@
             font-size: 14px;
             text-align: left;
         }
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
         .audio-player {
             margin-top: 20px;
         }
@@ -29,7 +33,7 @@
             width: 300px;
             height: auto;
             cursor: grab;
-            top: 300px; /* Start higher to avoid overlapping Disqus */
+            top: 300px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -40,7 +44,7 @@
             color: #555;
         }
         .comments-section {
-            margin-top: 450px; /* Push the comments section lower */
+            margin-top: 450px;
         }
     </style>
 </head>
@@ -53,6 +57,9 @@
         <a href="https://www.versicherungen.at/krankenzusatzversicherung/">Krankenzusatzversicherung Vergleich</a>
         <script type="text/javascript" src="https://whomania.com/ctr?id=914ba171c695fce5fb37f95bf6c42f1678100285"></script>
     </div>
+
+    <!-- Score Counter -->
+    <div class="score">You've positioned the rat <span id="score">0</span> times!</div>
 
     <!-- Audio Player -->
     <div class="audio-player">
@@ -88,9 +95,17 @@
 
     <script>
         const ratImage = document.getElementById('ratImage');
+        const scoreDisplay = document.getElementById('score');
 
         let isDragging = false;
         let offsetX, offsetY;
+        let score = 0; // Initialize the score counter
+
+        // Function to update the score
+        function updateScore() {
+            score++;
+            scoreDisplay.textContent = score;
+        }
 
         // Desktop Events
         ratImage.addEventListener('mousedown', (event) => {
@@ -104,6 +119,7 @@
             if (isDragging) {
                 ratImage.style.left = event.clientX - offsetX + 'px';
                 ratImage.style.top = event.clientY - offsetY + 'px';
+                updateScore(); // Update score on position change
             }
         });
 
@@ -125,6 +141,7 @@
                 const touch = event.touches[0];
                 ratImage.style.left = touch.clientX - offsetX + 'px';
                 ratImage.style.top = touch.clientY - offsetY + 'px';
+                updateScore(); // Update score on position change
             }
         });
 
