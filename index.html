@@ -28,9 +28,6 @@
             width: 300px;
             height: auto;
             cursor: grab;
-            top: 20%; /* Spawn rat at 20% of the viewport height */
-            left: 50%;
-            transform: translateX(-50%);
         }
         .instruction {
             margin-top: 20px;
@@ -49,7 +46,7 @@
             font-size: 16px;
             font-weight: bold;
             color: white;
-            background-color: #FF5722; /* Bright orange for attention */
+            background-color: #FF5722;
             border: none;
             border-radius: 5px;
             text-decoration: none;
@@ -98,7 +95,7 @@
         <h2>Comments</h2>
         <div id="disqus_thread"></div>
         <script>
-            (function() { // DON'T EDIT BELOW THIS LINE
+            (function() {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://positionrat-com.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
@@ -113,6 +110,21 @@
 
     <script>
         const ratImage = document.getElementById('ratImage');
+
+        // Place the rat dynamically below the header but above the comments
+        function positionRatSafely() {
+            const headerHeight = document.querySelector('h1').offsetHeight;
+            const audioHeight = document.querySelector('.audio-player').offsetHeight;
+            const margin = 50; // Extra spacing
+            const topPosition = headerHeight + audioHeight + margin;
+
+            ratImage.style.top = `${topPosition}px`;
+            ratImage.style.left = '50%';
+            ratImage.style.transform = 'translateX(-50%)';
+        }
+
+        // Call the function to position the rat
+        positionRatSafely();
 
         let isDragging = false;
         let offsetX, offsetY;
