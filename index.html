@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to PositionRat.com</title>
+    <title>Welcome to PositionRat.com!</title>
     <style>
         body {
             margin: 0;
@@ -28,6 +28,9 @@
             width: 300px;
             height: auto;
             cursor: grab;
+            top: 300px; /* Reset to a safe default */
+            left: 50%;
+            transform: translateX(-50%);
         }
         .instruction {
             margin-top: 20px;
@@ -73,7 +76,7 @@
 
     <!-- Button to Rat Speedrun -->
     <div class="button-container">
-        <a href="speedrun.html" class="button">New! Play Rat Speedrun!</a>
+        <a href="speedrun.html" class="button">New!</a>
     </div>
 
     <!-- Audio Player -->
@@ -110,23 +113,6 @@
 
     <script>
         const ratImage = document.getElementById('ratImage');
-
-        // Dynamically position the rat
-        function positionRatSafely() {
-            const headerHeight = document.querySelector('h1').offsetHeight;
-            const audioHeight = document.querySelector('.audio-player').offsetHeight;
-            const instructionsHeight = document.querySelector('.instruction').offsetHeight;
-            const margin = 50; // Extra space to ensure it's not overlapping
-
-            const topPosition = headerHeight + audioHeight + instructionsHeight + margin;
-
-            ratImage.style.top = `${topPosition}px`;
-            ratImage.style.left = '50%';
-            ratImage.style.transform = 'translateX(-50%)';
-        }
-
-        // Call the function to position the rat after everything loads
-        window.addEventListener('load', positionRatSafely);
 
         let isDragging = false;
         let offsetX, offsetY;
