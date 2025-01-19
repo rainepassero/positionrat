@@ -73,7 +73,7 @@
 
     <!-- Button to Rat Speedrun -->
     <div class="button-container">
-        <a href="speedrun.html" class="button">New!</a>
+        <a href="speedrun.html" class="button">New! Play Rat Speedrun!</a>
     </div>
 
     <!-- Audio Player -->
@@ -111,20 +111,22 @@
     <script>
         const ratImage = document.getElementById('ratImage');
 
-        // Place the rat dynamically below the header but above the comments
+        // Dynamically position the rat
         function positionRatSafely() {
             const headerHeight = document.querySelector('h1').offsetHeight;
             const audioHeight = document.querySelector('.audio-player').offsetHeight;
-            const margin = 50; // Extra spacing
-            const topPosition = headerHeight + audioHeight + margin;
+            const instructionsHeight = document.querySelector('.instruction').offsetHeight;
+            const margin = 50; // Extra space to ensure it's not overlapping
+
+            const topPosition = headerHeight + audioHeight + instructionsHeight + margin;
 
             ratImage.style.top = `${topPosition}px`;
             ratImage.style.left = '50%';
             ratImage.style.transform = 'translateX(-50%)';
         }
 
-        // Call the function to position the rat
-        positionRatSafely();
+        // Call the function to position the rat after everything loads
+        window.addEventListener('load', positionRatSafely);
 
         let isDragging = false;
         let offsetX, offsetY;
