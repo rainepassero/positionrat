@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,22 +14,12 @@
         h1 {
             margin-top: 60px;
         }
-        .counter {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 14px;
-            text-align: left;
-        }
-        .audio-player {
-            margin-top: 20px;
-        }
         img {
             position: absolute;
             width: 300px;
             height: auto;
             cursor: grab;
-            top: 300px; /* Fixed placement as in the original file */
+            top: 300px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -38,124 +29,65 @@
             font-style: italic;
             color: #555;
         }
-        .button-container {
-            position: absolute;
-            top: 10px; /* Place it in the top-right corner */
-            right: 10px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #FF5722;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: #E64A19;
-        }
-        .comments-section {
-            margin-top: 450px;
-        }
     </style>
 </head>
 <body>
     <h1>Welcome to PositionRat.com!</h1>
 
-    <!-- Visitor Counter -->
-    <div class="counter">
-        <script type="text/javascript" src="https://www.free-counters.org/count/h28m"></script><br>
-        <a href="https://www.versicherungen.at/krankenzusatzversicherung/">Krankenzusatzversicherung Vergleich</a>
-        <script type="text/javascript" src="https://whomania.com/ctr?id=914ba171c695fce5fb37f95bf6c42f1678100285"></script>
-    </div>
+```
+<!-- Rat Image -->
+<img id="ratImage" src="rat.jpg" alt="A cool rat">
 
-    <!-- Button to Rat Speedrun -->
-    <div class="button-container">
-        <a href="speedrun.html" class="button">🐀New! Play Rat Speedrun!</a>
-    </div>
+<!-- Instructions -->
+<p class="instruction">Go ahead and try! Position the rat anywhere you'd like! Wow!</p>
 
-    <!-- Audio Player -->
-    <div class="audio-player">
-        <audio id="backgroundMusic" autoplay loop controls>
-            <source src="music.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
+<script>
+    const ratImage = document.getElementById('ratImage');
 
-    <!-- Rat Image -->
-    <img id="ratImage" src="rat.jpg" alt="A cool rat">
+    let isDragging = false;
+    let offsetX, offsetY;
 
-    <!-- Instructions -->
-    <p class="instruction">Go ahead and try! Position the rat anywhere you'd like! Wow!</p>
+    // Dragging logic
+    ratImage.addEventListener('mousedown', (event) => {
+        isDragging = true;
+        offsetX = event.clientX - ratImage.offsetLeft;
+        offsetY = event.clientY - ratImage.offsetTop;
+        ratImage.style.cursor = 'grabbing';
+    });
 
-    <!-- Disqus Comment Section -->
-    <div class="comments-section">
-        <h2>Comments</h2>
-        <div id="disqus_thread"></div>
-        <script>
-            (function() { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://positionrat-com.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
+    document.addEventListener('mousemove', (event) => {
+        if (isDragging) {
+            ratImage.style.left = event.clientX - offsetX + 'px';
+            ratImage.style.top = event.clientY - offsetY + 'px';
+        }
+    });
 
-    <!-- Disqus Comment Count Script -->
-    <script id="dsq-count-scr" src="//positionrat-com.disqus.com/count.js" async></script>
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        ratImage.style.cursor = 'grab';
+    });
 
-    <script>
-        const ratImage = document.getElementById('ratImage');
+    // Mobile touch support
+    ratImage.addEventListener('touchstart', (event) => {
+        isDragging = true;
+        const touch = event.touches[0];
+        offsetX = touch.clientX - ratImage.offsetLeft;
+        offsetY = touch.clientY - ratImage.offsetTop;
+    });
 
-        let isDragging = false;
-        let offsetX, offsetY;
-
-        // Dragging logic
-        ratImage.addEventListener('mousedown', (event) => {
-            isDragging = true;
-            offsetX = event.clientX - ratImage.offsetLeft;
-            offsetY = event.clientY - ratImage.offsetTop;
-            ratImage.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (event) => {
-            if (isDragging) {
-                ratImage.style.left = event.clientX - offsetX + 'px';
-                ratImage.style.top = event.clientY - offsetY + 'px';
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            ratImage.style.cursor = 'grab';
-        });
-
-        // Mobile touch support
-        ratImage.addEventListener('touchstart', (event) => {
-            isDragging = true;
+    document.addEventListener('touchmove', (event) => {
+        if (isDragging) {
             const touch = event.touches[0];
-            offsetX = touch.clientX - ratImage.offsetLeft;
-            offsetY = touch.clientY - ratImage.offsetTop;
-        });
+            ratImage.style.left = touch.clientX - offsetX + 'px';
+            ratImage.style.top = touch.clientY - offsetY + 'px';
+        }
+    });
 
-        document.addEventListener('touchmove', (event) => {
-            if (isDragging) {
-                const touch = event.touches[0];
-                ratImage.style.left = touch.clientX - offsetX + 'px';
-                ratImage.style.top = touch.clientY - offsetY + 'px';
-            }
-        });
+    document.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+</script>
+```
 
-        document.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-    </script>
 </body>
 </html>
